@@ -1,26 +1,12 @@
+{% extends "base.html" %}
+{% load static %}
+{% block body %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <title>Add Courses</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-</head>
-<body>
+<div class="container" style="background-color: white; margin-top: 30px;">
 
 <div class="container">
 
-	{% if course %}
-		
-		
-		
-		</form>
-	
-
-
+	{% if zip %}
   <h2>Add Your Courses:</h2>
   <form method='POST'>
 		{% csrf_token %}
@@ -35,24 +21,31 @@
     </thead>
     <tbody>
       
-      {% for i,j in zip %}
+      {% for cnt,i,j in zip %}
       <tr>
-        <td>1</td>
+        <td>{{ cnt }}</td>
         <td>{{j.cname}}</td>
         <td>{{i.fname}}</td>
-        <td>
+        <td> 
               <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" name ="checks[]" value="{{i.cid}}" id="customCheck1" >
+                  <input type="checkbox" class="custom-control-input" name ="checks[]" value="{{cnt}}" id="customCheck1" >
                   <label class="custom-control-label" for="customCheck1"></label>
               </div>
         </td>
+      </tr>
 		{% endfor %}
+
     </tbody>
   </table>
+
   <input type="submit" class="btn btn-info center-block" value="Submit">
+  <br>
+  <br>
+  
+  </form>
 </div>
 {% else %}
 		<p> unable to print courses</p>
 	{% endif %}
-</body>
-</html>
+
+{% endblock %}

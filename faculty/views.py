@@ -26,7 +26,6 @@ def facultyLogin(request):
     if request.method == 'POST':
             username=request.POST.get('username')
             password=request.POST.get('password')
-
             user = authenticate(request, username=username, password=password)  
 
             if user is not None:
@@ -51,7 +50,7 @@ def view_courses_faculty(request,username):
             print(c)
             fc=faculty_courses(fusername=username,cid=c)
             fc.save()
-        return HttpResponse("successfully registered !!!")
+        return redirect('facultyLogin')
     else:
         return render(request,'fview_courses.html',{'course':allcourse})
 
@@ -73,3 +72,5 @@ def files_page(request,cid):
     return render(request,'files.html',{'f':tot_files})
 
 
+def index(request):
+    return render(request,'base.html')

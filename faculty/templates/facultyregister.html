@@ -20,8 +20,10 @@
         {{form.password1}}<br>
         {{form.password2.label}} 
         {{form.password2}}<br>
-        {{form.errors}}
         <input type="submit">
+     
     </form>
+    {{form.errors}}
+    alread have account.?<a href="{% url 'facultyLogin' %}">sign in</a><br><br>
 </body>
 </html>

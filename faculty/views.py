@@ -1,11 +1,10 @@
-from django.shortcuts import render,redirect
-from django.http import HttpResponse
+from django.shortcuts import render,redirect,HttpResponse
 from courses.models import course
 from faculty.models import faculty_courses,faculty
 from django.contrib.auth.forms import UserCreationForm
 from .forms import CreateUserForm
 from django.contrib.auth import authenticate,login,logout
-
+from django.contrib import messages
 # Create your views here.
 def facultyRegister(request):
     form=CreateUserForm()
@@ -13,8 +12,9 @@ def facultyRegister(request):
         form = CreateUserForm(request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponse("successfully registered!!")
-    return render(request,'faculty/register.html',{'form':form})
+            return redirect('facultyLogin')
+
+    return render(request,'facultyregister.html',{'form':form})
 
 def facultyLogin(request):
     if request.method == 'POST':
@@ -25,9 +25,11 @@ def facultyLogin(request):
 
             if user is not None:
                 login(request,user)
-                return render(request,'faculty/home.html')
+                return render(request,'home.html')
+            else:
+                messages.info(request,'incorrect crendentials')
 
-    return render(request,'faculty/login.html')
+    return render(request,'facultylogin.html')
 
 
 def facultyLogout(request):
@@ -46,7 +48,7 @@ def view_courses_faculty(request):
 			#print(fc.cid)
 		return HttpResponse("successfully registered !!!")
 	else:
-		return render(request,'faculty/view_courses.html',{'course':allcourse})
+		return render(request,'view_courses.html',{'course':allcourse})
 
 def view_courses_for_files(request):
 	fid=request.user.fid
@@ -54,7 +56,7 @@ def view_courses_for_files(request):
 	allcourse=[]
 	for i in fc:
 		allcourse=append(course.objects.filter(cid=f.cid))
-	return render(request,'faculty/index2.html',{'allcourse':allcourse})
+	return render(request,'index2.html',{'allcourse':allcourse})
 
 
 

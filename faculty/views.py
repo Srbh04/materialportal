@@ -1,4 +1,5 @@
 from django.shortcuts import render,redirect
+from django.http import HttpResponse
 from courses.models import course
 from faculty.models import faculty_courses,faculty
 from django.contrib.auth.forms import UserCreationForm
@@ -12,7 +13,7 @@ def facultyRegister(request):
         form = CreateUserForm(request.POST)
         if form.is_valid():
             form.save()
-
+            return HttpResponse("successfully registered!!")
     return render(request,'faculty/register.html',{'form':form})
 
 def facultyLogin(request):
@@ -24,7 +25,7 @@ def facultyLogin(request):
 
             if user is not None:
                 login(request,user)
-                return render(request,'home.html')
+                return render(request,'faculty/home.html')
 
     return render(request,'faculty/login.html')
 

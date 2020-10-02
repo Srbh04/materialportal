@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	{% if course %}
+		<form method='POST'>
+		{% csrf_token %}
+		{% for i in course %}
+		<input type="checkbox" name ="checks[]" value="{{i.cid}}">{{i.cname}}
+		<br>
+		{% endfor %}
+		<button type="submit"> submit</button>
+		</form>
+	{% else %}
+		<p> unable to print courses</p>
+	{% endif %}
+
+</body>
+</html>

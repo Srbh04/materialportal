@@ -1,13 +1,16 @@
 <!DOCTYPE html>
+{% load static %}
 <html>
 <head>
 	<title></title>
 </head>
 <body>
-	{% if allcourse %}
-	{% for i in allcourse %}
-	<a href="">{{i.cname}}</a>
+	{% if zip %}
+	{% for i,j in zip %}
+	<a href="">{{i}}</a>
+	<br>
 	{% endfor %}
 	{% endif %}
 </body>
 </html>
+

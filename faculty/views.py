@@ -1,9 +1,38 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render,redirect
 from courses.models import course
 from faculty.models import faculty_courses,faculty
+from django.contrib.auth.forms import UserCreationForm
+from .forms import CreateUserForm
+from django.contrib.auth import authenticate,login,logout
 
 # Create your views here.
+def facultyRegister(request):
+    form=CreateUserForm()
+    if request.method=='POST':
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+
+    return render(request,'faculty/register.html',{'form':form})
+
+def facultyLogin(request):
+    if request.method == 'POST':
+            username=request.POST.get('username')
+            password=request.POST.get('password')
+
+            user = authenticate(request, username=username, password=password)  
+
+            if user is not None:
+                login(request,user)
+                return render(request,'home.html')
+
+    return render(request,'faculty/login.html')
+
+
+def facultyLogout(request):
+    logout(request)
+    return redirect('facultyLogin')
+
 def view_courses_faculty(request):
 	allcourse=list(course.objects.all())
 	if request.method=='POST':

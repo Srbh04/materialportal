@@ -12,7 +12,7 @@ def facultyRegister(request):
         form = CreateUserForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('facultyLogin')
+            return redirect('viewcourses')
 
     return render(request,'facultyregister.html',{'form':form})
 
@@ -37,18 +37,17 @@ def facultyLogout(request):
     return redirect('facultyLogin')
 
 def view_courses_faculty(request):
-	allcourse=list(course.objects.all())
-	if request.method=='POST':
-		checklist= request.POST.getlist('checks[]')
-		for c in checklist:
-			fc=faculty_courses()
-			print(request.user.fid)
-			#fc.fid=123
-			fc.cid=c
-			#print(fc.cid)
-		return HttpResponse("successfully registered !!!")
-	else:
-		return render(request,'view_courses.html',{'course':allcourse})
+    allcourse=list(course.objects.all())
+    if request.method=='POST':
+        checklist= request.POST.getlist('checks[]')
+        username= request.POST.get('username')
+        for c in checklist:
+            fc=faculty_courses()
+            fc.fusername=username
+            fc.cid=c
+        return HttpResponse("successfully registered !!!")
+    else:
+        return render(request,'view_courses.html',{'course':allcourse})
 
 def view_courses_for_files(request):
 	fid=request.user.fid

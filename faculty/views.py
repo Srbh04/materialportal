@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect,HttpResponse
 from courses.models import course
 from faculty.models import faculty_courses,faculty,files
 from django.contrib.auth.forms import UserCreationForm
-from .forms import CreateUserForm
+from .forms import CreateUserForm,FilesForm
 from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
 # Create your views here.
@@ -66,10 +66,25 @@ def view_courses_for_files(request):
     zip_data=zip (allname,allid)
     return render(request,'course.html',{'zip':zip_data})
 
+
 def files_page(request,cid):
-    username=request.user.username
-    tot_files=files.objects.filter(fusername=username).filter(cid=cid)
-    return render(request,'files.html',{'f':tot_files})
+    form = FilesForm()
+    print(cid)
+    if request.method == 'POST':
+        form = FilesForm(request.POST,request.FILES)
+        form.cid=cid
+        form.fusername=request.user.username
+        print(form.fusername)
+        if form.is_valid():
+            form.save()
+            return redirect('courses')
+        
+    return render(request,'uploadfiles.html',{'form':form,'cid':cid,'username':request.user.username})
+    # username=request.user.username
+    # print(cid)
+    # tot_files=files.objects.filter(fusername=username).filter(cid=cid)
+    # return render(request,'files.html',{'f':tot_files})
+
 
 
 def index(request):

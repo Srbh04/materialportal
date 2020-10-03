@@ -6,19 +6,40 @@
     <title>Document</title>
 </head>
 <body>
+    <a href="{% url 'courses'%}">back to courses</a><br><br>
     <form action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        Enter {{form.cid.label}}: {{cid}}
-        {{form.cid}}<br><br>
-        Enter {{form.fusername.label}}: {{username}}
-        {{form.fusername}} <br>
+         Course_id
+        {{form.cid}}
+        <i>(enter Course_id = {{cid}})</i>
+        <br>
+        <br>
+        Username
+        {{form.fusername}} 
+        <i>(enter username = {{username}})</i>
+        <br><br>
+        {{form.title.label}}
+        {{form.title}} <br>
         <br>
         {{form.date.label}}
         {{form.date}}<br><br>
         {{form.material.label}}
         {{form.material}}<br><br>
         {{form.errors}}
-        <input type="submit">
+        <input type="submit" value="upload">
     </form>
+    {% for message in messages %}
+    <p>{{message}}</p>
+    {% endfor %}
+    
+    {% if uploads %}
+    {% for i in uploads%}
+        <b>{{i.title}}</b>
+        <a href="{{i.material.url}}">{{i.material}}</a> 
+         <a href="{% url 'deleteData' i.pk %}" >Delete</a><br>
+    {% endfor %}
+    {%else%}
+    No files to show please upload..!!
+    {%endif%}
 </body>
 </html>

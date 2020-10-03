@@ -5,11 +5,11 @@
 	{% if zip %}
 	<br>
 	{% for i,j in zip %}
-	<a href="" class="btn btn-info" role="button">{{i}}</a>
+	<a href="{% url 'files' j %}" class="btn btn-info" role="button">{{i}}</a>
 	<br>
 	<br>
 	{% endfor %}
 	{% endif %}
-
+	<a id="logout" href="{% url 'facultyLogout' %}" class="btn btn-info">Logout</a>
 {% endblock %}
 

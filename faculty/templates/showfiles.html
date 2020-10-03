@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <a href="{% url 'files' cid %}">Back to uploads</a>
+        
+    {% if uploads %}
+    <br>
+        {% for i in uploads %}
+       
+        <a href="{{i.material.url}}">{{i.material}}{{i.pk}}</a> 
+        <a href="{% url 'deleteData' i.pk %}">delete</a><br>
+        
+    {% endfor %}
+    {%else%}
+    No files to show please upload..!!
+    {%endif%}
+</body>
+</html>

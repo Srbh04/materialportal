@@ -19,7 +19,7 @@ class files(models.Model):
 	date=models.DateField()
 
 	def __str__(self):
-		return self.cid + ' ' + self.fusername
+		return self.title + ' ' +self.cid + ' ' + self.fusername
 	
 	def delete(self,*args,**kwargs):
 		self.material.delete()

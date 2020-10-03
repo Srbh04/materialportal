@@ -73,9 +73,7 @@ def view_courses_for_files(request):
 def files_page(request,cid):
     form = FilesForm()
     print(cid)
-    uploads=files.objects.all().filter(cid=cid,fusername=request.user.username)
-    print(uploads)
-    print(request.user.id)
+    uploads=files.objects.all().filter(cid=cid,fusername=request.user.username).order_by('title')
     if request.method == 'POST':
         user=request.POST.get('fusername')
         qid=request.POST.get('cid')
@@ -86,7 +84,7 @@ def files_page(request,cid):
                 return redirect('courses')
         else:
             messages.info(request,'please enter correct details.')
-    return render(request,'uploadfiles.html',{'form':form,'uploads':uploads,'cid':cid,'username':request.user.username})
+    return render(request,'uploadfiles.html',{'form':form,'uploads':uploads,'cid':cid,'username':request.user.username,})
     
 def deleteData(request,pk):
     obj =get_object_or_404(files,pk=pk)

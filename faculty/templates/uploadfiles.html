@@ -33,11 +33,24 @@
     {% endfor %}
     
     {% if uploads %}
+    <table class="table" border="1">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Material</th>
+            <th>Delete File</th>
+            <th>Date</th>
+          </tr>
+        </thead>
     {% for i in uploads%}
-        <b>{{i.title}}</b>
-        <a href="{{i.material.url}}">{{i.material}}</a> 
-         <a href="{% url 'deleteData' i.pk %}" >Delete</a><br>
+    <tr>
+       <td> <b>{{i.title}}</b></td>
+       <td><a href="{{i.material.url}}">{{i.material}}</a> </td>
+       <td> <a href="{% url 'deleteData' i.pk %}" >Delete</a></td>
+       <td> {{i.date}}</td>
+       </tr>
     {% endfor %}
+    </table>
     {%else%}
     No files to show please upload..!!
     {%endif%}

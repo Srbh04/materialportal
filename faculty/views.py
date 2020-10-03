@@ -5,6 +5,9 @@ from django.contrib.auth.forms import UserCreationForm
 from .forms import CreateUserForm,FilesForm
 from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
+from django.shortcuts import (get_object_or_404, 
+                              render,  
+                              HttpResponseRedirect)
 # Create your views here.
 def facultyRegister(request):
     form=CreateUserForm()
@@ -70,22 +73,29 @@ def view_courses_for_files(request):
 def files_page(request,cid):
     form = FilesForm()
     print(cid)
+    uploads=files.objects.all().filter(cid=cid,fusername=request.user.username)
+    print(uploads)
+    print(request.user.id)
     if request.method == 'POST':
+        user=request.POST.get('fusername')
+        qid=request.POST.get('cid')
         form = FilesForm(request.POST,request.FILES)
-        form.cid=cid
-        form.fusername=request.user.username
-        print(form.fusername)
-        if form.is_valid():
-            form.save()
-            return redirect('courses')
-        
-    return render(request,'uploadfiles.html',{'form':form,'cid':cid,'username':request.user.username})
-    # username=request.user.username
-    # print(cid)
-    # tot_files=files.objects.filter(fusername=username).filter(cid=cid)
-    # return render(request,'files.html',{'f':tot_files})
-
-
-
+        if user == request.user.username and qid==cid:
+            if form.is_valid():
+                form.save()
+                return redirect('courses')
+        else:
+            messages.info(request,'please enter correct details.')
+    return render(request,'uploadfiles.html',{'form':form,'uploads':uploads,'cid':cid,'username':request.user.username})
+    
+def deleteData(request,pk):
+    obj =get_object_or_404(files,pk=pk)
+    obj.delete()
+    print('done')
+    return redirect('courses')
+# def showFiles(request,cid):
+#     cid=cid
+#     uploads=files.objects.all().filter(cid=cid,fusername=request.user.username)
+#     return render(request,'showfiles.html',{'uploads':uploads,'cid':cid})
 def index(request):
     return render(request,'base.html')

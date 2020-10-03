@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        Enter {{form.cid.label}}: {{cid}}
+        {{form.cid}}<br><br>
+        Enter {{form.fusername.label}}: {{username}}
+        {{form.fusername}} <br>
+        <br>
+        {{form.date.label}}
+        {{form.date}}<br><br>
+        {{form.material.label}}
+        {{form.material}}<br><br>
+        {{form.errors}}
+        <input type="submit">
+    </form>
+</body>
+</html>
